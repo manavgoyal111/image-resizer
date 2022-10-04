@@ -4,6 +4,8 @@ const fs = require("fs");
 const { app, BrowserWindow, Menu, ipcMain, shell } = require("electron");
 const resizeImg = require("resize-img");
 
+process.env.NODE_ENV = "production";
+
 const isDev = process.env.NODE_ENV !== "production";
 const isMac = process.platform === "darwin";
 
@@ -121,8 +123,6 @@ ipcMain.on("image:resize", (e, options) => {
 // Resize and save image
 async function resizeImage({ imgPath, height, width, dest }) {
 	try {
-		// console.log(imgPath, height, width, dest);
-
 		// Resize image
 		const newPath = await resizeImg(fs.readFileSync(imgPath), {
 			width: +width,
