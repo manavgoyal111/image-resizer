@@ -4,9 +4,8 @@ const fs = require("fs");
 const { app, BrowserWindow, Menu, ipcMain, shell } = require("electron");
 const resizeImg = require("resize-img");
 
-process.env.NODE_ENV = "production";
-
-const isDev = process.env.NODE_ENV !== "production";
+// const isDev = process.env.NODE_ENV !== "production";
+const isDev = !app.isPackaged;
 const isMac = process.platform === "darwin";
 
 let mainWindow;
@@ -31,7 +30,6 @@ function createMainWindow() {
 		mainWindow.webContents.openDevTools();
 	}
 
-	// mainWindow.loadURL(`file://${__dirname}/renderer/index.html`);
 	mainWindow.loadFile(path.join(__dirname, "./renderer/index.html"));
 }
 
@@ -74,7 +72,33 @@ const menu = [
 		  ]
 		: []),
 	{
-		role: "fileMenu",
+		label: "File",
+		submenu: [
+			{
+				role: "reload",
+			},
+			{
+				role: "quit",
+			},
+		],
+	},
+	{
+		label: "Window",
+		submenu: [
+			{
+				role: "minimize",
+			},
+			{
+				role: "togglefullscreen",
+			},
+			{
+				role: "resetZoom",
+			},
+			{ type: "separator" },
+			{
+				role: "close",
+			},
+		],
 	},
 	...(!isMac
 		? [
@@ -89,22 +113,11 @@ const menu = [
 				},
 		  ]
 		: []),
-	// {
-	//   label: 'File',
-	//   submenu: [
-	//     {
-	//       label: 'Quit',
-	//       click: () => app.quit(),
-	//       accelerator: 'CmdOrCtrl+W',
-	//     },
-	//   ],
-	// },
 	...(isDev
 		? [
 				{
 					label: "Developer",
 					submenu: [
-						{ role: "reload" },
 						{ role: "forcereload" },
 						{ type: "separator" },
 						{ role: "toggledevtools" },
@@ -116,7 +129,7 @@ const menu = [
 
 // Respond to the resize image event
 ipcMain.on("image:resize", (e, options) => {
-	options.dest = path.join(os.homedir(), "imageresizer");
+	options.dest = path.join(os.homedir(), "Downloads");
 	resizeImage(options);
 });
 
