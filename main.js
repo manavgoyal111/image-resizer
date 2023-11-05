@@ -60,16 +60,16 @@ app.on("ready", () => {
 const menu = [
 	...(isMac
 		? [
-				{
-					label: app.name,
-					submenu: [
-						{
-							label: "About",
-							click: createAboutWindow,
-						},
-					],
-				},
-		  ]
+			{
+				label: app.name,
+				submenu: [
+					{
+						label: "About",
+						click: createAboutWindow,
+					},
+				],
+			},
+		]
 		: []),
 	{
 		label: "File",
@@ -102,28 +102,28 @@ const menu = [
 	},
 	...(!isMac
 		? [
-				{
-					label: "Help",
-					submenu: [
-						{
-							label: "About",
-							click: createAboutWindow,
-						},
-					],
-				},
-		  ]
+			{
+				label: "Help",
+				submenu: [
+					{
+						label: "About",
+						click: createAboutWindow,
+					},
+				],
+			},
+		]
 		: []),
 	...(isDev
 		? [
-				{
-					label: "Developer",
-					submenu: [
-						{ role: "forcereload" },
-						{ type: "separator" },
-						{ role: "toggledevtools" },
-					],
-				},
-		  ]
+			{
+				label: "Developer",
+				submenu: [
+					{ role: "forcereload" },
+					{ type: "separator" },
+					{ role: "toggledevtools" },
+				],
+			},
+		]
 		: []),
 ];
 
